@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--映射文件：如何操作数据库-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserMapper">
+    <!--int insertUser();-->
+    <insert id = "insertUser">
+        insert into mybatis values(null,'admin','123456',23,'男','12345@qq.com')
+    </insert>
+
+    <!--void updateUser();-->
+    <update id = "updateUser">
+        update mybatis set username = 'root',password = '123' where id = 3
+    </update>
+    
+    <!--void deleteUser();-->
+    <delete id="deleteUser">
+        delete from mybatis where id = 3
+    </delete>
+    <!--getUserById();-->
+    <!--
+        resultType:设置结果类型，即查询的类型要转换为的java类型
+        resultMap：自定义映射，处理多对一或一对多的元素关系
+
+    -->
+    <select id="getUserById();" resultType="com.lv.mybatis.pojo.User">
+        select *from mybatis where id = 1
+    </select>
+
+    <!--List<User> getAllUser();-->
+    <select id="getAllUser" resultType="user">
+        select *from mybatis
+    </select>
+</mapper>

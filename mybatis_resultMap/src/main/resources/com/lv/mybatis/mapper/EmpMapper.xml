@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lv.mybatis.mapper.EmpMapper">
+
+
+    <!--Emp getEmpByEmpId(@Param("empId") Integer empId);-->
+    <!--
+    字段名和属性名不一致的情况，如何处理映射关系
+    1.为查询的字段设置别名，和属性名保持一致
+    2.当字段符合MysQL的要求使用_，而属性符合java的要求使用驼峰
+此时可以在MyBatis的核心配置文件中设置一个全局配置，可以自动将下划线映射为驼峰emp_id:empId, emp_name : empName
+    3.使用resultMap自定义映射
+
+    处理多对一的映射方式
+    1.级联方式处理
+    2.
+    -->
+    <!--
+        resultMap:设置自定义的映射关系
+        id：唯一标识
+        type：处理映射关系的实体类的类型
+        常用的标签：
+        id：处理主键和实体类中属性的映射关系
+        result：处理普通字段和实体类中属性的映射关系
+            column：设置映射关系中的字段名，必须是sql查询出的某个字段
+            property：设置映射关系中的属性的属性名，必须是处理的实体类类型中的属性名
+    -->
+    <resultMap id="empResultMap" type="Emp">
+        <id column="emp_id" property="empId"></id>
+        <result column="emp_name" property="empName"></result>
+        <result column="age" property="age"></result>
+        <result column="gender" property="gender"></result>
+    </resultMap>
+
+    <select id="getEmpByEmpId" resultMap="empResultMap">
+        <!--select emp_id empId,emp_name empName,age,gender from t_emp where emp_id = #{empId}-->
+        select * from t_emp where emp_id = #{empId}
+    </select>
+
+    <!--Emp getEmpAndDeptByEmpId(@Param("empId") Integer empId);-->
+    <resultMap id="empAndDeptResultMap" type="Emp">
+        <id column="emp_id" property="empId"></id>
+        <result column="emp_name" property="empName"></result>
+        <result column="age" property="age"></result>
+        <result column="gender" property="gender"></result>
+        <result column="dept_id" property="dept.deptId"></result>
+        <result column="dept_name" property="dept.deptName"></result>
+
+    </resultMap>
+    <select id="getEmpAndDeptByEmpId" resultMap="empAndDeptResultMap">
+        select t_emp.*,t_dept.*
+        from t_emp
+        left join t_dept
+        on t_emp.dept_id = t_dept.dept_id
+        where t_emp.emp_id = #{empId}
+    </select>
+</mapper>

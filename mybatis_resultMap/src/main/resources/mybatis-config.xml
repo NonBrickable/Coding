@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--核心配置文件：如何连接数据库-->
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--The content of element type "configuration" must match
+    "(properties?,settings?,typeAliases?,typeHandlers?,
+    objectFactory?,objectWrapperFactory?,reflectorFactory?,
+    plugins?,environments?,databaseIdProvider?,mappers?)".-->
+    <properties resource="jdbc.properties"/>
+
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <typeAliases>
+        <!--<typeAlias type="com.lv.mybatis.pojo.User" alias="abc"></typeAlias>-->
+        <!--<typeAlias type="com.lv.mybatis.pojo.User"></typeAlias>-->
+        <package name="com.lv.mybatis.pojo"></package>
+    </typeAliases>
+
+
+    <!--
+    environments：配置连接数据库环境的文件
+    属性：
+        default：设置默认使用的环境的id
+    -->
+    <environments default="development">
+        <!--
+    environment：设置一个具体的连接数据库的环境
+        属性：
+        id：设置环境的唯一标识，不能重复
+    -->
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <!--
+            事务管理器，设置事务管理的方式
+            type="JDBC/MANAGED"
+            JDBC表示使用JDBC中原生的管理方式
+            MANAGED：被管理，例如Spring
+            -->
+
+            <dataSource type="POOLED">
+                <!--
+                dataSource：数据源
+                type：设置数据源的类型
+                type="POOLED/UNPOOLED/JNDI"
+                POOLED：表示使用数据库连接池
+                UNPOOLED：表示不使用数据库连接池，每次重新创建
+                JNDI：表示使用上下文中的数据源
+                -->
+
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/ssm?serverTimezone=UTC"/>
+                <property name="username" value="root"/>
+                <property name="password" value="1234"/>
+                <!--
+
+                -->
+
+            </dataSource>
+        </environment>
+
+        <environment id="test">
+            <transactionManager type="JDBC"/>
+
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.root}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+
+    </environments>
+    <!--引入MyBatis的映射文件，也就是mybatis-config.xml-->
+    <mappers>
+        <!--<mapper resource="mappers/UserMapper.xml"/>-->
+        <package name="com.lv.mybatis.mapper"></package>
+    </mappers>
+</configuration>

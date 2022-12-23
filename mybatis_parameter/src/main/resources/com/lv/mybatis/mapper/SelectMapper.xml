@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lv.mybatis.mapper.SelectMapper">
+    <!--User getUserById(@Param("id") Integer id);-->
+    <select id="getUserById" resultType="user">
+        select * from mybatis where id = #{id}
+    </select>
+
+    <!--List<User> getAllUser();-->
+    <select id="getAllUser" resultType="user">
+        select *from mybatis
+    </select>
+    <!--Integer getCount();-->
+    <select id="getCount" resultType="integer">
+        select count(*) from mybatis
+    </select>
+    <!--Map<String,Object> getUserByIdToMap(@Param("id") Integer id);-->
+    <select id="getUserByIdToMap" resultType="map">
+        select * from mybatis where id = #{id}
+    </select>
+    <!--Map<String,Object> getAllUserToMap();-->
+    <select id="getAllUserToMap" resultType="map">
+        select * from mybatis
+    </select>
+</mapper>
